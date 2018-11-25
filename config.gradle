@@ -1,0 +1,33 @@
+/**
+ * 在主项目的根目录下创建config.gradle文件
+ * 在这里单独处理统一依赖问题
+ * 注意需要在根目录的build.gradle中进行引入
+ */
+ext {
+    android = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.0",
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            applicationId    : "com.sixin.police.market",
+            versionCode      : 1,
+            versionName      : "1.0"
+
+    ]
+    url = [
+            "debug"  : "debugUrl1",
+            "release": "releaseUrl1",
+    ]
+    //Version
+    supportLibrary = "28.0.0"
+    dependencies = [
+            /*support库*/
+            "constraint"      : "com.android.support.constraint:constraint-layout:1.1.3",
+            "recyclerview"    : "com.android.support:recyclerview-v7:${supportLibrary}",
+            "supportV4"       : "com.android.support:support-v4:${supportLibrary}",
+            "suppoutDesign"   : "com.android.support:design:${supportLibrary}",
+            "appcompat"       : "com.android.support:appcompat-v7:${supportLibrary}",
+            "butterknife"     : "com.jakewharton:butterknife:8.7.0"
+    ]
+
+}

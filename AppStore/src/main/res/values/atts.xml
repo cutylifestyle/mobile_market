@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomNavigationBar">
+        <attr name="bnbElevation" format="dimension" />
+        <attr name="bnbActiveColor" format="color" />
+        <attr name="bnbInactiveColor" format="color" />
+        <attr name="bnbBackgroundColor" format="color" />
+        <attr name="bnbAnimationDuration" format="integer" />
+        <attr name="bnbMode" format="enum">
+            <enum name="mode_default" value="0" />
+            <enum name="mode_fixed" value="1" />
+            <enum name="mode_shifting" value="2" />
+            <enum name="mode_fixed_no_title" value="3" />
+            <enum name="mode_shifting_no_title" value="4" />
+        </attr>
+        <attr name="bnbBackgroundStyle" format="enum">
+            <enum name="background_style_default" value="0" />
+            <enum name="background_style_static" value="1" />
+            <enum name="background_style_ripple" value="2" />
+        </attr>
+        <attr name="bnbAutoHideEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="AnimateHorizontalProgressBar">
+        <attr name="ahp_progressColor" format="color|reference" />
+        <attr name="ahp_backgroundColor" format="color|reference" />
+        <attr name="ahp_cornerRadius" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="Banner">
+        <attr name="isAutoPlay" format="boolean"/>
+        <attr name="isHandLoop" format="boolean"/>
+        <attr name="AutoPlayTime" format="integer|reference"/>
+        <attr name="pointNormal" format="reference"/>
+        <attr name="pointSelect" format="reference"/>
+        <attr name="indicatorDrawable" format="reference"/>
+        <attr name="pointsVisibility" format="boolean"/>
+        <attr name="isTipsMarquee" format="boolean"/>
+        <attr name="pointsPosition" format="enum">
+            <enum name="LEFT" value="0"/>
+            <enum name="CENTER" value="1"/>
+            <enum name="RIGHT" value="2"/>
+        </attr>
+        <attr name="pointsContainerBackground" format="reference|color"/>
+        <attr name="pointContainerPosition" format="enum">
+            <enum name="TOP" value="10"/>
+            <enum name="BOTTOM" value="12"/>
+        </attr>
+        <!-- 指示点容器左右内间距 -->
+        <attr name="pointContainerLeftRightPadding" format="dimension"/>
+        <!-- 指示点上下内间距 -->
+        <attr name="pointTopBottomPadding" format="dimension"/>
+        <!-- 指示点左右内间距 -->
+        <attr name="pointLeftRightPadding" format="dimension"/>
+        <!-- 提示文案的文字颜色 -->
+        <attr name="tipTextColor" format="reference|color"/>
+        <!-- 提示文案的文字大小 -->
+        <attr name="tipTextSize" format="dimension"/>
+        <!--是否是数字指示器-->
+        <attr name="isShowNumberIndicator" format="boolean"/>
+        <!-- 数字指示器背景 -->
+        <attr name="numberIndicatorBacgroud" format="reference"/>
+        <!-- 当只有一页数据时是否显示指示器，默认值为false -->
+        <attr name="isShowIndicatorOnlyOne" format="boolean"/>
+        <!-- 图片切换速度 -->
+        <attr name="pageChangeDuration" format="integer"/>
+        <!--图片轮播框架展占位图-->
+        <attr name="placeholderDrawable" format="reference"/>
+        <!--是否开启一屏显示多个模式 默认不开启-->
+        <attr name="isClipChildrenMode" format="boolean"/>
+        <!--一屏显示多个左右间距-->
+        <attr name="clipChildrenLeftRightMargin" format="dimension"/>
+        <!--一屏显示多个上下间距-->
+        <attr name="clipChildrenTopBottomMargin" format="dimension"/>
+        <!--设置viewpager间距-->
+        <attr name="viewpagerMargin" format="dimension"/>
+        <!--少于三张是否支持一屏多显模式-->
+        <attr name="isClipChildrenModeLessThree" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="RatingBar">
+        <attr name="srb_borderColor" format="color" />
+        <attr name="srb_fillColor" format="color" />
+        <attr name="srb_backgroundColor" format="color" />
+        <attr name="srb_starBackgroundColor" format="color" />
+        <attr name="srb_pressedBorderColor" format="color" />
+        <attr name="srb_pressedFillColor" format="color" />
+        <attr name="srb_pressedBackgroundColor" format="color" />
+        <attr name="srb_pressedStarBackgroundColor" format="color" />
+        <attr name="srb_numberOfStars" format="integer" />
+        <attr name="srb_starSize" format="dimension" />
+        <attr name="srb_maxStarSize" format="dimension" />
+        <attr name="srb_starsSeparation" format="dimension" />
+        <attr name="srb_starBorderWidth" format="float" />
+        <attr name="srb_starCornerRadius" format="float" />
+        <attr name="srb_isIndicator" format="boolean" />
+        <attr name="srb_rating" format="float" />
+        <attr name="srb_stepSize" format="float" />
+        <attr name="srb_drawBorderEnabled" format="boolean" />
+        <attr name="srb_gravity" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <!--收起展开textview-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxCollapsedLines" format="integer"/>
+        <attr name="animDuration" format="integer"/>
+        <attr name="expandDrawable" format="reference"/>
+        <attr name="collapseDrawable" format="reference"/>
+        <attr name="contentTextColor" format="color" />
+        <attr name="collapseExpandTextColor" format="color" />
+        <attr name="contentTextSize" format="dimension" />
+        <attr name="collapseExpandTextSize" format="dimension" />
+        <attr name="textCollapse" format="string" />
+        <attr name="textExpand" format="string" />
+        <attr name="collapseExpandGrarity" >
+            <flag name="left" value="3"/>
+            <flag name="right" value="5"/>
+        </attr>
+        <attr name="drawableGrarity" >
+            <flag name="left" value="3"/>
+            <flag name="right" value="5"/>
+        </attr>
+    </declare-styleable>
+
+    <!--提交按钮的属性-->
+    <declare-styleable name="SubmitButton">
+        <attr name="buttonText" format="string" />
+        <attr name="buttonTextColor" format="color"/>
+        <attr name="buttonColor" format="color" />
+        <attr name="succeedColor" format="color" />
+        <attr name="failedColor" format="color" />
+        <attr name="buttonTextSize" format="dimension" />
+        <attr name="progressStyle" format="enum">
+            <enum name="loading" value="0" />
+            <enum name="progress" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

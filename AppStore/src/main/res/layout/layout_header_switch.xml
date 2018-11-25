@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    android:id="@+id/radio_group_app_detail"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp">
+    
+    <RadioButton
+        android:id="@+id/btn_introduce"
+        style="@style/radio_button_style"
+        android:text="@string/app_detail_introduce"
+        android:gravity="center"
+        android:background="@drawable/selector_radio_btn_left"
+        />
+
+    <RadioButton
+        android:id="@+id/btn_all_comment"
+        style="@style/radio_button_style"
+        android:text="@string/app_detail_all_comment"
+        android:gravity="center"
+        android:background="@drawable/selector_radio_btn_middle"
+        />
+
+    <com.sixin.police.market.widget.MDMRadioButton
+        android:id="@+id/btn_comment"
+        style="@style/radio_button_style"
+        android:text="@string/app_detail_comment"
+        android:drawableStart="@drawable/selector_comment_drawable_start"
+        android:drawablePadding="3dp"
+        android:background="@drawable/selector_radio_btn_right"
+        />
+    
+</RadioGroup>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/img_user_photo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_user_photo" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:gravity="center|start"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/img_user_photo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:gravity="center|start"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.sixin.police.market.widget.expandabletextview.ExpandableTextView
+        android:id="@+id/tv_comment_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:text="TextView"
+        app:animDuration="200"
+        app:collapseExpandGrarity="right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_user_photo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
+        app:maxCollapsedLines="3" />
+
+    <com.sixin.police.market.widget.RatingBar
+        android:id="@+id/rb_comment_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintStart_toEndOf="@+id/img_user_photo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment_content"
+        app:srb_borderColor="@color/material_amber500"
+        app:srb_fillColor="@color/material_amber300"
+        app:srb_pressedBorderColor="@color/material_amberA700"
+        app:srb_pressedFillColor="@color/material_amberA400"
+        app:srb_starSize="15dp"
+        app:srb_isIndicator="true"
+        app:srb_stepSize="1"/>
+
+    <TextView
+        android:id="@+id/tv_comment_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="18dp"
+        android:text="TextView"
+        android:textSize="12sp"
+        android:gravity="center|start"
+        app:layout_constraintStart_toEndOf="@+id/rb_comment_score"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment_content" />
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="14dp"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_user_photo"
+        app:layout_constraintTop_toBottomOf="@+id/rb_comment_score" />
+
+</android.support.constraint.ConstraintLayout>

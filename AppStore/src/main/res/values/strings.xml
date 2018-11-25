@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">AppStore</string>
+
+    <string name="tab_home">首页</string>
+    <string name="tab_general_purpose">通用应用</string>
+    <string name="tab_special_topic">专题应用</string>
+    <string name="tab_system_tool">系统工具</string>
+    <string name="app_detail_title">应用详情</string>
+    <string name="app_detail_introduce">应用介绍</string>
+    <string name="app_detail_all_comment">全部评论</string>
+    <string name="app_detail_comment">发表评论</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name_detail">应用名称</string>
+    <string name="app_code_detail">应用版本信息</string>
+    <string name="app_download_count">应用下载次数</string>
+    <string name="no_content">无</string>
+
+    <!--ExpandableTextView中按钮提示文字-->
+    <string name="expand">更多</string>
+    <string name="collapse">收起</string>
+
+    <string name="publish_comment">发布</string>
+    <string name="score_hints">轻点星形评分</string>
+
+    <string name="input_content_max_length">您最多可输入500个字符</string>
+    <string name="network_not_connected">网络未连接</string>
+    <string name="server_error_please_retry">服务器异常,请刷新重试</string>
+    <string name="client_error_please_retry">客户端异常,请刷新重试</string>
+    <string name="unknown_net_error_please_retry">未知的网络错误,请刷新重试</string>
+    <string name="no_data_please_retry">您请求的数据不存在，请刷新重试</string>
+    <string name="all_comment">全部评论</string>
+    <string name="left_parenthesis">(</string>
+    <string name="right_parenthesis">)</string>
+    <string name="please_input_comment_conent">请输入评论内容</string>
+    <string name="please_input_comment_score">请对应用进行评分</string>
+    <string name="overrun_of_characters">您输入的字符数已超限</string>
+    <string name="comment_commit_success">评论提交成功</string>
+    <string name="sorry_no_preimages">抱歉没有预览图片</string>
+
+</resources>

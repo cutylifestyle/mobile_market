@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+    <paths>
+        <external-path path="" name="camera_photos"  />
+        <external-path path="" name="download" />
+        <!--文件安装-->
+        <external-path name="external_files" path="."/>
+    </paths>
+</resources>

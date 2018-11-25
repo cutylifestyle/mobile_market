@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="srb_golden_stars">#FFC619</color>
+    <color name="black">#000000</color>
+    <color name="light_grey">#E9E9E9</color>
+    <color name="wathet_blue">#BAE7FF</color>
+    <color name="sky_blue">#1D7DF6</color>
+    <color name="grey_radio_btn_frame">#D2D5D7</color>
+    <color name="grey_radio_btn_text">#98999b</color>
+    <color name="grey_edt_input_comment">#E9E9E9</color>
+
+    <!--ExpandableTextView的配置颜色-->
+    <color name="gray_expandable_textView">#98999b</color>
+    <color name="main_color_expandable_textView">#1D7DF6</color>
+
+    <!--评分控件的颜色-->
+    <color name="material_amber300">#ffffd54f</color>
+    <color name="material_amber500">#ffffc107</color>
+    <color name="material_amberA400">#ffffc400</color>
+    <color name="material_amberA700">#ffffab00</color>
+    <!--水平进度条的背景色-->
+    <color name="bg_ahp">#F2F2F2</color>
+
+    <!--preImage的指示器背景色-->
+    <color name="bg_pre_img">#33000000</color>
+
+</resources>

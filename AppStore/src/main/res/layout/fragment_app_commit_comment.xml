@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.AppCommitCommentFragment">
+
+
+    <com.sixin.police.market.widget.RatingBar
+        android:id="@+id/rb_score"
+        android:layout_width="145dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srb_borderColor="@color/material_amber500"
+        app:srb_fillColor="@color/material_amber300"
+        app:srb_pressedBorderColor="@color/material_amberA700"
+        app:srb_pressedFillColor="@color/material_amberA400"
+        app:srb_stepSize="1" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:hint="@string/score_hints"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rb_score" />
+
+    <EditText
+        android:id="@+id/edt_input_comment"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/bg_edt_input_comment"
+        android:gravity="top|start"
+        android:hint="@string/input_content_max_length"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textCursorDrawable="@drawable/bg_edt_cursor"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:paddingBottom="25dp"/>
+
+    <com.sixin.police.market.widget.submitbutton.SubmitButton
+        android:id="@+id/btn_submit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="14dp"
+        app:buttonColor="@color/sky_blue"
+        app:buttonText="@string/publish_comment"
+        app:buttonTextSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_input_comment" />
+
+    <ImageView
+        android:id="@+id/img_delete_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_delete_all"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_input_comment"
+        app:layout_constraintEnd_toEndOf="@+id/edt_input_comment" />
+
+    <TextView
+        android:id="@+id/tv_number_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        android:text="0/50"
+        app:layout_constraintBottom_toTopOf="@+id/edt_input_comment"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

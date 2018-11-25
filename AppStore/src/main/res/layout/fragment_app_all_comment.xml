@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.AppAllCommentFragment">
+
+    <com.lehand.smartrefresh.SmartRefreshLayout
+        android:id="@+id/srl_app_all_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="true"
+        app:srlEnableAutoLoadMore="false"
+        >
+
+        <com.lehand.smartrefresh.header.ClassicsHeader
+            android:id="@+id/srl_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlPrimaryColor="@color/sky_blue"
+            app:srlAccentColor="@android:color/white"
+            app:srlEnableLastTime="false"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_app_all_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <com.lehand.smartrefresh.footer.ClassicsFooter
+            android:id="@+id/srl_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.lehand.smartrefresh.SmartRefreshLayout>
+
+</FrameLayout>

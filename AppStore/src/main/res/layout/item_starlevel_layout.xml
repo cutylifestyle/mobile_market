@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.sixin.police.market.widget.RatingBar
+        android:id="@+id/rb_star_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srb_borderColor="@color/material_amber500"
+        app:srb_fillColor="@color/material_amber300"
+        app:srb_isIndicator="true"
+        app:srb_pressedBorderColor="@color/material_amberA700"
+        app:srb_pressedFillColor="@color/material_amberA400"
+        app:srb_starSize="15dp" />
+
+    <com.sixin.police.market.widget.AnimateHorizontalProgressBar
+        android:id="@+id/ahp_level_user_count"
+        android:layout_width="0dp"
+        android:layout_height="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:max="100"
+        app:ahp_backgroundColor="@color/bg_ahp"
+        app:ahp_cornerRadius="10dp"
+        app:ahp_progressColor="@color/material_amber500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rb_star_level"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
