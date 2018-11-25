@@ -19,6 +19,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -29,6 +30,8 @@ import com.lzy.okgo.model.Response;
 import com.sixin.police.market.AppStore;
 import com.sixin.police.market.R;
 import com.sixin.police.market.base.BaseActivity;
+import com.sixin.police.market.bean.appdetailinfo.appcommentinfo.AppCommitCommentEvent;
+import com.sixin.police.market.bean.appdetailinfo.appdetailinfo.AppDetailEntity;
 import com.sixin.police.market.bean.appdetailinfo.appintroduceinfo.AppDeveloperInfoEntity;
 import com.sixin.police.market.bean.appdetailinfo.appintroduceinfo.AppInfoEntity;
 import com.sixin.police.market.bean.appdetailinfo.appintroduceinfo.AppIntroduceBase;
@@ -48,6 +51,10 @@ import com.sixin.police.market.utils.StatusBarUtil;
 import com.sixin.police.market.widget.emptypage.LoadingAndRetryManager;
 import com.sixin.police.market.widget.emptypage.OnLoadingAndRetryListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +63,7 @@ import butterknife.BindView;
 /**
  * 应用详情的activity
  * */
-public class AppDetailActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class AppDetailActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,AppAllCommentFragment.OnRenderRadioBtnListener {
 
     private static final String TAG ="AppDetailActivity";
     private static final String TAG_CANCEL_REQUEST_INTRODUCE = "tag_cancel_request_introduce";
@@ -95,6 +102,10 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
     @BindView(R.id.btn_uninstall_more)
     Button mBtnUninstallMore;
 
+    @Nullable
+    @BindView(R.id.btn_all_comment)
+    RadioButton mBtnAllComment;
+
     private FragmentManager mFragmentManager;
     //应用介绍的碎片
     private AppIntroduceFragment mAppIntroduceFragment;
@@ -129,6 +140,8 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
      * */
     private List<AppIntroduceBase> mAppIntroduceInfos;
 
+    private AppDetailEntity mAppDetailEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +168,9 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                 moveTo(AppSearchActivity.class,false);
             }
         });
+
+        //注册EventBus
+        EventBus.getDefault().register(this);
 
         mFragmentManager = getSupportFragmentManager();
         //设置radioGroup的按钮切换监听
@@ -301,6 +317,8 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.d(TAG,"--------"+response.body());
+                        mAppDetailEntity = new AppDetailEntity();
+                        mAppDetailEntity.setAppCommentCount("1020");
                         sendResponseMessage(false,0);
                     }
                 });
@@ -332,6 +350,7 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                 //TODO 注意这个判空操作一定要加
                 if (mLoadingAndRetryManager != null) {
                     mLoadingAndRetryManager.showContent();
+                    renderHeader();
                     mRadioGroup.check(R.id.btn_introduce);
                 }
             }else{
@@ -339,6 +358,24 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                     mLoadingAndRetryManager.showEmpty();
                 }
             }
+        }
+    }
+
+    /**
+     * 渲染头部页面数据
+     * */
+    private void renderHeader() {
+        if (mAppDetailEntity != null) {
+            renderBtnComment(mAppDetailEntity.getAppCommentCount());
+        }
+    }
+
+    /**
+     * 渲染评论RadioButton的内容
+     * */
+    private void renderBtnComment(String commentCount) {
+        if (mBtnAllComment != null) {
+            mBtnAllComment.setText(getString(R.string.all_comment)+getString(R.string.left_parenthesis)+commentCount+getString(R.string.right_parenthesis));
         }
     }
 
@@ -421,14 +458,14 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                 break;
             case R.id.btn_all_comment:
                 if (Analyzing.isEmpty(mAppAllCommentFragment)) {
-                    mAppAllCommentFragment = AppAllCommentFragment.newInstance("", "");
+                    mAppAllCommentFragment = AppAllCommentFragment.newInstance();
                     fragmentTransaction.add(R.id.fm_app_detail, mAppAllCommentFragment);
                 }
                 presentFragment = mAppAllCommentFragment;
                 break;
             case R.id.btn_comment:
                 if (Analyzing.isEmpty(mAppCommitCommentFragment)) {
-                    mAppCommitCommentFragment = AppCommitCommentFragment.newInstance("", "");
+                    mAppCommitCommentFragment = AppCommitCommentFragment.newInstance();
                     fragmentTransaction.add(R.id.fm_app_detail, mAppCommitCommentFragment);
                 }
                 presentFragment = mAppCommitCommentFragment;
@@ -455,6 +492,11 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onRender(String commentCount) {
+        renderBtnComment(commentCount);
     }
 
     //显示更多操作按钮的布局包装类，用于对布局组件的高度做属性动画
@@ -497,6 +539,26 @@ public class AppDetailActivity extends BaseActivity implements RadioGroup.OnChec
             mUpAnimatorSet.cancel();
         }
 
+        //注销EventBus
+        EventBus.getDefault().unregister(this);
+
         AppStore.getRefWatcher(getApplicationContext()).watch(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveEventFromCommitComment(AppCommitCommentEvent appCommitCommentEvent){
+        if (appCommitCommentEvent != null && appCommitCommentEvent.isRefresh() && mFragmentManager != null) {
+            //TODO 这个post会不会存在bug
+            //TODO meta10动画卡顿问题
+            if (Analyzing.isEmpty(mAppAllCommentFragment)) {
+                mAppAllCommentFragment = AppAllCommentFragment.newInstance();
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fm_app_detail, mAppAllCommentFragment);
+                fragmentTransaction.hide(mAppAllCommentFragment);
+                fragmentTransaction.commit();
+            }else {
+                mAppAllCommentFragment.lazyLoad();
+            }
+        }
     }
 }

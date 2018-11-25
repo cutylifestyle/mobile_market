@@ -27,7 +27,7 @@
             android:id="@+id/rv_app_all_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:overScrollMode="never"/>
 
         <com.lehand.smartrefresh.footer.ClassicsFooter
             android:id="@+id/srl_footer"

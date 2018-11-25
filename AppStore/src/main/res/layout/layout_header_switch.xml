@@ -22,7 +22,8 @@
         android:text="@string/app_detail_all_comment"
         android:gravity="center"
         android:background="@drawable/selector_radio_btn_middle"
-        />
+        android:singleLine="true"
+        android:ellipsize="end"/>
 
     <com.sixin.police.market.widget.MDMRadioButton
         android:id="@+id/btn_comment"

@@ -26,10 +26,10 @@
 
     <string name="input_content_max_length">您最多可输入500个字符</string>
     <string name="network_not_connected">网络未连接</string>
-    <string name="server_error_please_retry">服务器异常,请刷新重试</string>
-    <string name="client_error_please_retry">客户端异常,请刷新重试</string>
-    <string name="unknown_net_error_please_retry">未知的网络错误,请刷新重试</string>
-    <string name="no_data_please_retry">您请求的数据不存在，请刷新重试</string>
+    <string name="server_error_please_retry">服务器异常</string>
+    <string name="client_error_please_retry">客户端异常</string>
+    <string name="unknown_net_error_please_retry">未知的网络错误</string>
+    <string name="no_data_please_retry">您请求的数据不存在</string>
     <string name="all_comment">全部评论</string>
     <string name="left_parenthesis">(</string>
     <string name="right_parenthesis">)</string>
@@ -38,5 +38,6 @@
     <string name="overrun_of_characters">您输入的字符数已超限</string>
     <string name="comment_commit_success">评论提交成功</string>
     <string name="sorry_no_preimages">抱歉没有预览图片</string>
+    <string name="max_char_numbers">/500</string>
 
 </resources>

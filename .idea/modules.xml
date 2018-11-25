@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AppStore/AppStore.iml" filepath="$PROJECT_DIR$/AppStore/AppStore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/adapter.iml" filepath="$PROJECT_DIR$/adapter/adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appstorelibrary/appstorelibrary.iml" filepath="$PROJECT_DIR$/appstorelibrary/appstorelibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mobile.iml" filepath="$PROJECT_DIR$/mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/refreshLayout/refreshLayout.iml" filepath="$PROJECT_DIR$/refreshLayout/refreshLayout.iml" />
+    </modules>
+  </component>
+</project>

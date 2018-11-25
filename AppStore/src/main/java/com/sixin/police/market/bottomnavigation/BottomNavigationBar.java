@@ -32,7 +32,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 /**
- * Class description : This class is used to draw the layout and this acts like a bridge between
+ * Class description : This class is used to draw the layout and this acts like_comment a bridge between
  * library and app, all details can be modified via this class.
  *
  * @author ashokvarma

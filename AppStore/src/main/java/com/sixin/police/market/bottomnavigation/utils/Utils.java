@@ -35,7 +35,7 @@ public class Utils {
      * This method can be extended to get all android attributes color, string, dimension ...etc
      *
      * @param context          used to fetch android attribute
-     * @param androidAttribute attribute codes like R.attr.colorAccent
+     * @param androidAttribute attribute codes like_comment R.attr.colorAccent
      * @return in this case color of android attribute
      */
     public static int fetchContextColor(Context context, int androidAttribute) {

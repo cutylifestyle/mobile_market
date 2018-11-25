@@ -7,6 +7,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -40,13 +41,7 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
 
     private static final String TAG = "AppAllCommentFragment";
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private OnRenderRadioBtnListener mListener;
 
     @Nullable
     @BindView(R.id.srl_app_all_comment)
@@ -58,6 +53,10 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
 
     private AppCommentMultiAdapter mAppCommentMultiAdapter;
     private List<AppCommentBase> mAppComments = new ArrayList<>();
+    /*
+    * 用于存放上拉加载更多数据的临时集合
+    * */
+    private List<AppCommentBase> mTempAppComments = new ArrayList<>();
 
     private static final String TAG_REQUEST_HEADER_PANEL = "tag_request_header_panel";
     private static final String TAG_REQUEST_COMMENT_DATA = "tag_request_comment_data";
@@ -78,27 +77,16 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
      * */
     private boolean isLoadMore;
 
+    private String mAppCommentCount;
 
+    //TODO 修改下拉刷新控件的样式
     public AppAllCommentFragment() {
         // Required empty public constructor
     }
 
-    public static AppAllCommentFragment newInstance(String param1, String param2) {
+    public static AppAllCommentFragment newInstance() {
         AppAllCommentFragment fragment = new AppAllCommentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -117,7 +105,6 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
     }
 
     private void setRefreshLayoutListener() {
-        //TODO 注意可能引发内存泄漏
         //TODO  保持有空面板的存在
         mSrlAppAllComment.setOnRefreshListener(this);
         mSrlAppAllComment.setOnLoadMoreListener(this);
@@ -128,7 +115,13 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
      * */
     private void loadNewestData() {
         //TODO 暂时的处理方式是先在这儿就清空数据
+
+        //TODO 考虑要不要吐司
         mAppComments.clear();
+
+        if (mSrlAppAllComment != null) {
+            mSrlAppAllComment.setEnableLoadMore(true);
+        }
 
         isLoadMore = false;
         responseTotalCount = 0;
@@ -140,7 +133,7 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
             if (mSrlAppAllComment != null) {
                 mSrlAppAllComment.finishRefresh(false);
             }
-            Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.network_not_connected), Toast.LENGTH_SHORT).show();
+            toastGravityCenter(getStr(R.string.network_not_connected));
             return;
         }
 
@@ -148,21 +141,25 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
         requestCommentRecord();
     }
 
-    public void onButtonPressed(Uri uri) {
+    /**
+     * 通知RadioButton刷新数据
+     * @param commentCount 评论总数
+     * */
+    public void notificationRenderBtn(String commentCount) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onRender(commentCount);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof OnRenderRadioBtnListener) {
+            mListener = (OnRenderRadioBtnListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnRenderRadioBtnListener");
+        }
     }
 
     @Override
@@ -191,6 +188,8 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
      * */
     private void loadMoreCommentData() {
 
+        mTempAppComments.clear();
+
         isLoadMore = true;
         emptyDataTotalCount = 0;
         responseTotalCount = 0;
@@ -201,17 +200,20 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
             if (mSrlAppAllComment != null) {
                 mSrlAppAllComment.finishLoadMore(false);
             }
-            Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.network_not_connected), Toast.LENGTH_SHORT).show();
+            toastGravityCenter(getStr(R.string.network_not_connected));
             return;
         }
-
         requestCommentRecord();
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    /**
+     * 用于通知DetailActivity中的评论按钮刷新评论数据
+     * */
+    public interface OnRenderRadioBtnListener {
+        /**
+         * @param commentCount 评论总数
+         * */
+        void onRender(String commentCount);
     }
 
     /**
@@ -220,9 +222,7 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
      * 有一个请求出现问题，就不渲染页面
      * */
     private void requestHeaderData() {
-        //TODO 测试正在加载退出会不会导致程序崩溃
         //TODO 测试在弱网环境下会不会导致程序崩溃
-        //TODO 这里面存在一个大BUG，请求数据不存在的情况下，是不能够进行上拉加载的操作的
         OkGo.<String>get("http://apis.juhe.cn/cook/query.php")
                 .tag(TAG_REQUEST_HEADER_PANEL)
                 .params("key","469fd874804b7e62c4e20da9c1b624b0")
@@ -240,11 +240,11 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.d(TAG, "header---------:" + response.body());
-                        //TODO 模拟数据
+                        //TODO  sendMesseage方法考虑尝试先调用
                         AppCommentHeaderEntity appCommentHeaderEntity = new AppCommentHeaderEntity();
                         appCommentHeaderEntity.setTitle("应用评分");
                         appCommentHeaderEntity.setAppScore(4.5f);
-                        appCommentHeaderEntity.setTotalCommentCount("1.5万人");
+                        appCommentHeaderEntity.setTotalCommentCount("1.5万");
 
                         List<StarLevelEntity> starLevels = new ArrayList<>();
                         for (int i = 0; i < 5; i++) {
@@ -258,9 +258,17 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                         mAppComments.add(0,appCommentHeaderEntity);
 
                         //TODO 是否添加标题的前提条件是检查有没有评论,可以更具评论人数确定是否需要添加
+                        //TODO 询问后台评论总数返回的是什么类型的数据，目前来看最好返回整数类型
                         AppCommentTitleEntity appCommentTitleEntity = new AppCommentTitleEntity();
                         appCommentTitleEntity.setTitle(getString(R.string.all_comment));
                         mAppComments.add(1,appCommentTitleEntity);
+
+                        //对评论总数设值
+                        String totalCount = appCommentHeaderEntity.getTotalCommentCount();
+                        if (TextUtils.isEmpty(totalCount)) {
+                            totalCount = "0";
+                        }
+                        mAppCommentCount = totalCount;
 
                         sendResponseMessage(false,0);
                     }
@@ -274,7 +282,6 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
      * */
     private void requestCommentRecord() {
         //TODO 这儿的网络请求整体流程还需要走一遍，防止出现bug
-        //TODO 这里还存在一个bug，全部评论的数据接口是另外一个，会导致数据不同步的情况
         OkGo.<String>get("http://v.juhe.cn/toutiao/index")
                 .tag(TAG_REQUEST_COMMENT_DATA)
                 .params("key","8ba9b86990513b9629bbf60510b39224")
@@ -291,35 +298,36 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.d(TAG, "comment-------:" + response.body());
-                        for (int i = 0; i < 10; i++) {
-                            AppCommentEntity appCommentEntity = new AppCommentEntity();
-                            appCommentEntity.setUserName("藏三");
-                            appCommentEntity.setPoliceId("100000");
-                            appCommentEntity.setCommentDate("2018/10/11");
-                            appCommentEntity.setCommentScore(3.0f);
-                            appCommentEntity.setLikeCount("50");
-                            appCommentEntity.setCommentVersion("v1.2");
-                            appCommentEntity.setCommentContent("xxxxxxxxx\nxxxxxxxx\nxxxxxxxxx\nxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                            mAppComments.add(appCommentEntity);
+                        if (isLoadMore) {
+                            for (int i = 0; i < 10; i++) {
+                                AppCommentEntity appCommentEntity = new AppCommentEntity();
+                                appCommentEntity.setUserName("藏三");
+                                appCommentEntity.setPoliceId("100000");
+                                appCommentEntity.setCommentDate("2018/10/11");
+                                appCommentEntity.setCommentScore(3.0f);
+                                appCommentEntity.setLikeCount("50");
+                                appCommentEntity.setCommentVersion("v1.2");
+                                appCommentEntity.setCommentContent("xxxxxxxxx\nxxxxxxxx\nxxxxxxxxx\nxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                                mTempAppComments.add(appCommentEntity);
+                            }
+                        }else{
+                            for (int i = 0; i < 10; i++) {
+                                AppCommentEntity appCommentEntity = new AppCommentEntity();
+                                appCommentEntity.setUserName("藏三");
+                                appCommentEntity.setPoliceId("100000");
+                                appCommentEntity.setCommentDate("2018/10/11");
+                                appCommentEntity.setCommentScore(3.0f);
+                                appCommentEntity.setLikeCount("50");
+                                appCommentEntity.setCommentVersion("v1.2");
+                                appCommentEntity.setCommentContent("xxxxxxxxx\nxxxxxxxx\nxxxxxxxxx\nxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                                mAppComments.add(appCommentEntity);
+                            }
                         }
+                        //TODO 这儿发送的0还是1需要与后台沟通错误码
                         sendResponseMessage(false,0);
                     }
                 });
     }
-
-    //todo 提取到基类中去
-//    private void toastRequestErrorInfo(Response<String> response) {
-//        if (response != null) {
-//            int code = response.code();
-//            if (code >= 500) {
-//                Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.server_error_please_retry), Toast.LENGTH_SHORT).show();
-//            } else if (code >= 400) {
-//                Toast.makeText(AppUtils.getContext(),getResources().getString(R.string.client_error_please_retry),Toast.LENGTH_LONG).show();
-//            }else{
-//                Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.unknown_net_error_please_retry), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     /**
      * 接受多个网络请求的结果信息
@@ -336,6 +344,7 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                //TODO 这儿的状态需要进行测试
                 if(!isLoadMore){
                     mSrlAppAllComment.finishRefresh(false);
+                    mSrlAppAllComment.setEnableLoadMore(false);
                 }else{
                     mSrlAppAllComment.finishLoadMore(false);
                 }
@@ -350,13 +359,18 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                 if (emptyDataTotalCount == 0) {
                     if (mSrlAppAllComment != null) {
                         mSrlAppAllComment.finishRefresh(true);
-                        //TODO 渲染界面
+                        notificationRenderBtn(mAppCommentCount);
                         mAppCommentMultiAdapter.notifyDataSetChanged();
+                        if (mAppComments.size() == 1) {
+                            mSrlAppAllComment.setEnableLoadMore(false);
+                        }
                     }
                 }else{
                     if (mSrlAppAllComment != null) {
                         mSrlAppAllComment.finishRefresh(false);
-                        Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.no_data_please_retry), Toast.LENGTH_SHORT).show();
+                        //TODO 当连接上服务器以后，测试上拉加载的逻辑对不对
+                        mSrlAppAllComment.setEnableLoadMore(false);
+                        toastGravityCenter(getStr(R.string.no_data_please_retry));
                     }
                 }
             }
@@ -365,13 +379,13 @@ public class AppAllCommentFragment extends BaseFragment implements OnRefreshList
                 if (emptyDataTotalCount == 0) {
                     if (mSrlAppAllComment != null) {
                         mSrlAppAllComment.finishLoadMore(true);
-                        //TODO 渲染界面
+                        mAppCommentMultiAdapter.addData(mTempAppComments);
                         //TODO 处理没有更多数据的情况，已经加载完了
                     }
                 }else{
                     if (mSrlAppAllComment != null) {
                         mSrlAppAllComment.finishLoadMore(false);
-                        Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.no_data_please_retry), Toast.LENGTH_SHORT).show();
+                        toastGravityCenter(getStr(R.string.no_data_please_retry));
                     }
                 }
             }

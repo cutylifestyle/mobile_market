@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -423,13 +424,19 @@ public class BaseFragment extends Fragment {
         if (response != null) {
             int code = response.code();
             if (code >= 500) {
-                Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.server_error_please_retry), Toast.LENGTH_SHORT).show();
+                toastGravityCenter(getStr(R.string.server_error_please_retry));
             } else if (code >= 400) {
-                Toast.makeText(AppUtils.getContext(),getResources().getString(R.string.client_error_please_retry),Toast.LENGTH_LONG).show();
+                toastGravityCenter(getStr(R.string.client_error_please_retry));
             }else{
-                Toast.makeText(AppUtils.getContext(), getResources().getString(R.string.unknown_net_error_please_retry), Toast.LENGTH_SHORT).show();
+                toastGravityCenter(getStr(R.string.unknown_net_error_please_retry));
             }
         }
+    }
+
+    protected void toastGravityCenter(String msg) {
+        Toast toast = Toast.makeText(AppUtils.getContext(), msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
     }
 
 
